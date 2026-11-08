@@ -1,0 +1,25 @@
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Compilación
+[Bb]in/
+[Oo]bj/
+
+# NuGet
+packages/
+*.nupkg
+
+# Archivos temporales
+*.tmp
+*.log
+*.cache
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
