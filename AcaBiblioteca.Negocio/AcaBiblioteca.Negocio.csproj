@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Capa de Lógica de Negocio: reglas del sistema y validación de operaciones -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AcaBiblioteca.Entidades\AcaBiblioteca.Entidades.csproj" />
+    <ProjectReference Include="..\AcaBiblioteca.Datos\AcaBiblioteca.Datos.csproj" />
+  </ItemGroup>
+
+</Project>
