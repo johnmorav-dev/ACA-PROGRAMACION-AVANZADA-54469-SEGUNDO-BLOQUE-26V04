@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/Capas/">
+    <Project Path="AcaBiblioteca.Entidades/AcaBiblioteca.Entidades.csproj" />
+    <Project Path="AcaBiblioteca.Datos/AcaBiblioteca.Datos.csproj" />
+    <Project Path="AcaBiblioteca.Negocio/AcaBiblioteca.Negocio.csproj" />
+  </Folder>
+  <Project Path="AcaBiblioteca/AcaBiblioteca.csproj" />
+</Solution>
