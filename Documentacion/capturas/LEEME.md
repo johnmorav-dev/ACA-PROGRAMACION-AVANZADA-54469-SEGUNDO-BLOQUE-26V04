@@ -15,6 +15,7 @@ Guarde aquí las capturas con estos nombres exactos (el documento y el README ya
 | prueba-cp13.png | Mensaje de préstamo registrado (prueba CP13). |
 | prueba-cp14.png | Advertencia «No hay existencias disponibles» (prueba CP14). |
 | prueba-cp16.png | Préstamo en estado Devuelto (prueba CP16). |
+| prueba-cp22.png | Error controlado sin conexión con SQL Server (prueba CP22). |
 | github-commits.png | Historial de commits en GitHub. |
 | github-repositorio.png | Página principal de su repositorio. |
 

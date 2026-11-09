@@ -49,11 +49,11 @@ Presentación → Negocio → Datos → SQL Server. Los formularios no contienen
 
 - Windows 10/11
 - Visual Studio 2026 (o 2022 actualizado) con la carga de trabajo **Desarrollo de escritorio con .NET** y el SDK de **.NET 10**
-- SQL Server 2022 (instancia `SQL2022`) y SQL Server Management Studio
+- SQL Server 2022 Express (instancia `SQLEXPRESS`) y SQL Server Management Studio
 
 ### 1. Crear la base de datos
 
-1. Abra **SSMS** y conéctese a `.\SQL2022` (autenticación de Windows, *Certificado de servidor de confianza* marcado).
+1. Abra **SSMS** y conéctese a `.\SQLEXPRESS` (autenticación de Windows, *Certificado de servidor de confianza* marcado).
 2. Abra `BaseDatos/AcaBiblioteca.sql` y ejecútelo completo con **F5**.
 3. Al final debe ver el conteo de registros: 10 autores, 7 editoriales, 11 libros, 10 usuarios y 10 préstamos.
 
@@ -64,17 +64,17 @@ Presentación → Negocio → Datos → SQL Server. Los formularios no contienen
 La cadena está en `AcaBiblioteca.Datos/Conexion.cs`:
 
 ```csharp
-"Server=.\\SQL2022;Database=AcaBiblioteca;Integrated Security=true;TrustServerCertificate=true;"
+"Server=.\\SQLEXPRESS;Database=AcaBiblioteca;Integrated Security=true;TrustServerCertificate=true;"
 ```
 
-Si instaló la instancia predeterminada cambie `.\\SQL2022` por `localhost`; si usa SQL Express, por `.\\SQLEXPRESS`.
+Si usa otra instancia cambie `.\SQLEXPRESS`: por ejemplo `.\SQL2022` o, para la instancia predeterminada, `localhost`.
 
 ### 3. Ejecutar
 
 1. Abra `AcaBiblioteca.slnx` en Visual Studio.
 2. Visual Studio restaura los paquetes NuGet (`Microsoft.Data.SqlClient` y `FontAwesome.Sharp`) automáticamente. Si no lo hace: clic derecho sobre la solución → **Restaurar paquetes NuGet**.
 3. Verifique que **AcaBiblioteca** sea el proyecto de inicio (clic derecho → *Establecer como proyecto de inicio*).
-4. Presione **F5**. En la barra inferior debe aparecer «● Conectado a .\SQL2022 / AcaBiblioteca».
+4. Presione **F5**. En la barra inferior debe aparecer «● Conectado a .\SQLEXPRESS / AcaBiblioteca».
 
 ### Uso rápido
 

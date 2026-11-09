@@ -666,12 +666,12 @@ La conexión se centraliza en la clase `Conexion` de la capa de datos, de modo q
 
 ```csharp
 private readonly string cadenaConexion =
-    "Server=.\\SQL2022;Database=AcaBiblioteca;Integrated Security=true;TrustServerCertificate=true;";
+    "Server=.\\SQLEXPRESS;Database=AcaBiblioteca;Integrated Security=true;TrustServerCertificate=true;";
 ```
 
 | Parámetro | Significado |
 |---|---|
-| `Server=.\SQL2022` | Instancia **SQL2022** del equipo local (el punto equivale a *localhost*). Si se instaló la instancia predeterminada, se usa `Server=localhost`. |
+| `Server=.\SQLEXPRESS` | Instancia **SQLEXPRESS** (SQL Server 2022 Express) del equipo local; el punto equivale a *localhost*. Si se usa otra instancia, por ejemplo `.\SQL2022` o la predeterminada (`localhost`), solo se cambia este valor. |
 | `Database=AcaBiblioteca` | Base de datos creada con el script. |
 | `Integrated Security=true` | Autenticación de Windows (no requiere usuario ni contraseña). |
 | `TrustServerCertificate=true` | Confía en el certificado del servidor local; equivale a la opción «Certificado de servidor de confianza» de SSMS. |
@@ -750,34 +750,34 @@ return EjecutarComando("DELETE FROM Autores WHERE IdAutor = @IdAutor",
 
 ## 13.1 Estrategia de pruebas
 
-Se realizaron **pruebas funcionales manuales** (caja negra) sobre la aplicación conectada a la base de datos con los datos de prueba del script. Para cada módulo se probaron los casos válidos y los casos que deben ser rechazados por las validaciones y reglas de negocio. Después de cada operación se verificó el resultado en la tabla del formulario, en el módulo de Inicio y, cuando era necesario, con consultas en SQL Server Management Studio.
+Se realizaron **pruebas funcionales manuales** (caja negra) el 8 de noviembre de 2026 sobre la aplicación compilada con .NET 10 y conectada a SQL Server 2022 Express (`.\SQLEXPRESS`), con los datos de prueba del script. Para cada módulo se probaron los casos válidos y los casos que deben ser rechazados por las validaciones y reglas de negocio. Después de cada operación se verificó el resultado en la tabla del formulario y, en las pruebas de existencias (CP13, CP16, CP18 y CP19), con consultas directas a la base de datos (`sqlcmd`). Al terminar se volvió a ejecutar el script para dejar los datos de prueba limpios.
 
 ## 13.2 Casos de prueba
 
 | ID | Funcionalidad | Entrada / acción | Resultado esperado | Resultado obtenido | Estado |
 |---|---|---|---|---|---|
-| CP01 | Conexión | Abrir la aplicación con SQL Server encendido | La barra inferior muestra «Conectado a .\SQL2022 / AcaBiblioteca» | Conexión correcta | Aprobado |
-| CP02 | Registrar libro | ISBN 9788497592208, título «Crónica de una muerte anunciada», autor García Márquez, editorial Debolsillo, año 1981, existencias 3 | «Libro guardado correctamente» y el libro aparece en la tabla | Libro registrado | Aprobado |
-| CP03 | Registrar libro | ISBN repetido 9780451524935 | Advertencia «Ya existe un libro con el ISBN…» | Registro rechazado | Aprobado |
-| CP04 | Registrar libro | ISBN «123», año «abc» o existencias «-2» | Advertencia del campo con error | Registro rechazado | Aprobado |
-| CP05 | Buscar libro | Criterio Autor, texto «Márquez» | Se listan los libros de Gabriel García Márquez | Búsqueda correcta | Aprobado |
-| CP06 | Eliminar libro | Eliminar «1984» (tiene préstamos) | Advertencia: tiene préstamo(s) registrado(s) | Eliminación bloqueada | Aprobado |
-| CP07 | Registrar autor | Nombre «Julio», apellido «Cortázar» (ya existe) | Advertencia de autor ya registrado | Registro rechazado | Aprobado |
-| CP08 | Eliminar autor | Eliminar a George Orwell (tiene libros) | Advertencia: tiene libro(s) registrado(s) | Eliminación bloqueada | Aprobado |
-| CP09 | Registrar editorial | Nombre «Norma» | Editorial registrada | Editorial registrada | Aprobado |
-| CP10 | Registrar usuario | Datos válidos, documento 1001001011 | «Usuario guardado correctamente» | Usuario registrado | Aprobado |
-| CP11 | Registrar usuario | Documento repetido 1001001001 | Advertencia de documento existente | Registro rechazado | Aprobado |
-| CP12 | Registrar usuario | Correo «ana.gmail.com» | Advertencia de formato de correo | Registro rechazado | Aprobado |
-| CP13 | Registrar préstamo | Usuario Carlos Gómez, libro «Rayuela» (2 disponibles) | Préstamo registrado y existencias de Rayuela pasan a 1 | Préstamo registrado y existencias actualizadas | Aprobado |
-| CP14 | Registrar préstamo | Libro con 0 existencias (se editaron las existencias de «Ficciones» a 0) | Advertencia «No hay existencias disponibles» | Préstamo rechazado | Aprobado |
-| CP15 | Registrar préstamo | Ana Pérez + «Cien años de soledad» (ya tiene ese préstamo activo) | Advertencia de préstamo activo repetido | Préstamo rechazado | Aprobado |
-| CP16 | Registrar devolución | Préstamo activo, fecha de devolución marcada | Estado «Devuelto», fecha guardada y existencias + 1 | Devolución registrada | Aprobado |
-| CP17 | Registrar devolución | Préstamo ya devuelto | Advertencia «Este préstamo ya fue devuelto» | Operación rechazada | Aprobado |
-| CP18 | Editar préstamo | Cambiar el libro de un préstamo activo | Existencias: +1 al libro anterior, −1 al nuevo | Existencias ajustadas | Aprobado |
-| CP19 | Eliminar préstamo | Eliminar un préstamo activo | Préstamo eliminado y existencia repuesta | Préstamo eliminado | Aprobado |
-| CP20 | Reportes | Generar «Préstamos activos» | Se listan los préstamos con estado Prestado y el total | Reporte generado | Aprobado |
-| CP21 | Exportar | Exportar un reporte a CSV | Archivo CSV que se abre en Excel | Archivo generado | Aprobado |
-| CP22 | Sin conexión | Abrir la aplicación con SQL Server detenido | Mensaje de error controlado, la aplicación no se cierra | Error controlado | Aprobado |
+| CP01 | Conexión | Abrir la aplicación con SQL Server encendido | La barra inferior muestra «Conectado a .\SQLEXPRESS / AcaBiblioteca» | Se muestra «● Conectado a .\SQLEXPRESS / AcaBiblioteca» y el resumen de Inicio (11 títulos, 36 ejemplares, 10 usuarios) | Aprobado |
+| CP02 | Registrar libro | ISBN 9788497592208, título «Crónica de una muerte anunciada», autor García Márquez, editorial Debolsillo, categoría Novela, año 1981, existencias 3 | «Libro guardado correctamente» y el libro aparece en la tabla | Mensaje «Libro guardado correctamente.»; el libro aparece en la tabla | Aprobado |
+| CP03 | Registrar libro | ISBN repetido 9780451524935 | Advertencia «Ya existe un libro con el ISBN…» | Advertencia «Ya existe un libro con el ISBN 9780451524935.»; no se guarda | Aprobado |
+| CP04 | Registrar libro | ISBN «123»; año «abc»; existencias «-2» | Advertencia del campo con error | «El ISBN debe tener 10 o 13 dígitos…», «El año debe ser un número entero…» y «Las existencias no pueden ser negativas.» | Aprobado |
+| CP05 | Buscar libro | Criterio Autor, texto «Márquez» | Se listan los libros de Gabriel García Márquez | Se listan 3 libros de Gabriel García Márquez | Aprobado |
+| CP06 | Eliminar libro | Eliminar «1984» (tiene préstamos) | Advertencia: tiene préstamo(s) registrado(s) | «No se puede eliminar el libro porque tiene 1 préstamo(s) registrado(s).» | Aprobado |
+| CP07 | Registrar autor | Nombre «Julio», apellido «Cortázar» (ya existe) | Advertencia de autor ya registrado | «El autor Julio Cortázar ya está registrado.» | Aprobado |
+| CP08 | Eliminar autor | Eliminar a George Orwell (tiene libros) | Advertencia: tiene libro(s) registrado(s) | «No se puede eliminar el autor porque tiene 1 libro(s) registrado(s)…» | Aprobado |
+| CP09 | Registrar editorial | Nombre «Norma» | Editorial registrada | «Editorial guardada correctamente.» | Aprobado |
+| CP10 | Registrar usuario | Valentina Rojas, documento 1001001011, teléfono y correo válidos | «Usuario guardado correctamente» | «Usuario guardado correctamente.» | Aprobado |
+| CP11 | Registrar usuario | Documento repetido 1001001001 | Advertencia de documento existente | «Ya existe un usuario registrado con el documento 1001001001.» | Aprobado |
+| CP12 | Registrar usuario | Correo «ana.gmail.com» | Advertencia de formato de correo | «El correo electrónico no tiene un formato válido…» | Aprobado |
+| CP13 | Registrar préstamo | Usuario Carlos Gómez, libro «Rayuela» (2 disponibles) | Préstamo registrado y existencias de Rayuela pasan a 1 | «Préstamo registrado correctamente. Se descontó una existencia del libro.»; Rayuela queda con 1 | Aprobado |
+| CP14 | Registrar préstamo | Se prestó el único ejemplar de «Ficciones» a Ana Pérez (queda en 0) y se intentó prestarlo a Andrés López | Advertencia «No hay existencias disponibles» | «No hay existencias disponibles de este libro.»; el préstamo no se registra | Aprobado |
+| CP15 | Registrar préstamo | Ana Pérez + «Cien años de soledad» (ya tiene ese préstamo activo) | Advertencia de préstamo activo repetido | «El usuario ya tiene un préstamo activo de este libro…» | Aprobado |
+| CP16 | Registrar devolución | Préstamo activo de «Ficciones», fecha de devolución marcada | Estado «Devuelto», fecha guardada y existencias + 1 | «Devolución registrada correctamente…»; estado Devuelto y Ficciones vuelve a 1 disponible | Aprobado |
+| CP17 | Registrar devolución | Préstamo ya devuelto | Advertencia «Este préstamo ya fue devuelto» | «Este préstamo ya fue devuelto.» | Aprobado |
+| CP18 | Editar préstamo | Cambiar el libro de un préstamo activo de «Rayuela» a «El principito» | Existencias: +1 al libro anterior, −1 al nuevo | «Préstamo actualizado correctamente.»; en la BD Rayuela pasa de 1 a 2 y El principito de 5 a 4 | Aprobado |
+| CP19 | Eliminar préstamo | Eliminar ese préstamo activo | Préstamo eliminado y existencia repuesta | «Préstamo eliminado correctamente.»; El principito vuelve a 5 | Aprobado |
+| CP20 | Reportes | Generar «Préstamos activos» | Se listan los préstamos con estado Prestado y el total | Se listan 5 registros con los días que lleva cada préstamo | Aprobado |
+| CP21 | Exportar | Exportar el reporte a CSV | Archivo CSV que se abre en Excel | «Reporte exportado correctamente.»; CSV separado por `;`, con tildes correctas | Aprobado |
+| CP22 | Sin conexión | Abrir la aplicación sin servidor disponible (copia de prueba apuntando a una instancia inexistente) | Mensaje de error controlado, la aplicación no se cierra | Mensaje «Error al cargar el resumen de la biblioteca…»; la aplicación sigue abierta | Aprobado |
 
 ## 13.3 Evidencias de pruebas
 
@@ -798,6 +798,20 @@ Se realizaron **pruebas funcionales manuales** (caja negra) sobre la aplicación
 ![Evidencia CP16](capturas/prueba-cp16.png)
 
 **Resultado:** el préstamo cambió a Devuelto y el ejemplar volvió a estar disponible.
+
+### Prueba CP22 – Sin conexión con SQL Server
+
+![Evidencia CP22](capturas/prueba-cp22.png)
+
+**Resultado:** el error de conexión se mostró de forma controlada y la aplicación no se cerró.
+
+## 13.4 Errores encontrados y corregidos durante las pruebas
+
+| Error | Causa | Corrección |
+|---|---|---|
+| Las listas de Usuario y Libro del módulo Préstamos mostraban el Id en lugar del nombre. | Se asignaba `ValueMember` sin `DisplayMember`, y el `ComboBox` mostraba el valor. | Se usa el evento `Format` para mostrar `ToString()` de cada objeto («Ana Pérez - 1001001001», «Rayuela (2 disp.)»). |
+| Los préstamos no se coloreaban por estado. | El color se asignaba a las filas antes de que la tabla terminara de enlazarse y se perdía. | Se usa el evento `CellFormatting` del `DataGridView` (rojo = Prestado, verde = Devuelto). |
+| Advertencia de seguridad NU1903 al compilar. | Dependencia transitiva `System.Security.Cryptography.Pkcs` 9.0.18 con vulnerabilidad conocida. | Se agregó la referencia a la versión 10.0.14. |
 
 ------------------------------------------------------------------------
 
