@@ -20,6 +20,19 @@ namespace AcaBiblioteca
         public FrmPrestamos()
         {
             InitializeComponent();
+            dgvPrestamos.CellFormatting += dgvPrestamos_CellFormatting;
+
+            // Con ValueMember asignado y sin DisplayMember, el ComboBox mostraría el Id.
+            // El evento Format hace que muestre Usuario.ToString() / Libro.ToString() (polimorfismo).
+            cmbUsuario.FormattingEnabled = true;
+            cmbLibro.FormattingEnabled = true;
+            cmbUsuario.Format += MostrarToString;
+            cmbLibro.Format += MostrarToString;
+        }
+
+        private void MostrarToString(object sender, ListControlConvertEventArgs e)
+        {
+            e.Value = e.ListItem?.ToString();
         }
 
         private void FrmPrestamos_Load(object sender, EventArgs e)
@@ -81,7 +94,6 @@ namespace AcaBiblioteca
                     dgvPrestamos.Columns["TituloLibro"].DisplayIndex = 2;
                 }
 
-                ColorearEstados();
             }
             catch (Exception ex)
             {
@@ -89,15 +101,20 @@ namespace AcaBiblioteca
             }
         }
 
-        /// <summary>Resalta los préstamos activos para diferenciarlos de los devueltos.</summary>
-        private void ColorearEstados()
+        /// <summary>
+        /// Resalta los préstamos activos (rojo) y los devueltos (verde).
+        /// Se usa CellFormatting porque se ejecuta cada vez que se pinta una celda,
+        /// así el color se conserva aunque la tabla se vuelva a enlazar.
+        /// </summary>
+        private void dgvPrestamos_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            foreach (DataGridViewRow fila in dgvPrestamos.Rows)
+            if (e.RowIndex < 0 || e.CellStyle == null) return;
+
+            if (dgvPrestamos.Rows[e.RowIndex].DataBoundItem is Prestamo prestamo)
             {
-                if (fila.DataBoundItem is Prestamo prestamo)
-                {
-                    fila.DefaultCellStyle.ForeColor = prestamo.EstaActivo ? Color.DarkRed : Color.DarkGreen;
-                }
+                Color color = prestamo.EstaActivo ? Color.DarkRed : Color.DarkGreen;
+                e.CellStyle.ForeColor = color;
+                e.CellStyle.SelectionForeColor = Color.White;
             }
         }
 
