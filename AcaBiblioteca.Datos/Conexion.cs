@@ -1,4 +1,4 @@
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 
 namespace AcaBiblioteca.Datos
 {
@@ -9,16 +9,16 @@ namespace AcaBiblioteca.Datos
     public class Conexion
     {
         /// <summary>
-        /// Cadena de conexión con la instancia SQL2022 instalada en clase.
-        /// - Server=.\SQL2022            -> instancia SQL2022 del equipo local.
-        ///   (Si instaló la instancia predeterminada use Server=localhost).
+        /// Cadena de conexión con la instancia SQL Server 2022 Express del equipo.
+        /// - Server=.\SQLEXPRESS         -> instancia SQLEXPRESS del equipo local.
+        ///   (Si usa otra instancia cámbiela, p. ej. .\SQL2022 o localhost).
         /// - Database=AcaBiblioteca      -> base de datos creada con el script.
         /// - Integrated Security=true    -> autenticación de Windows.
         /// - TrustServerCertificate=true -> confía en el certificado local
         ///   (equivale a "Certificado de servidor de confianza" en SSMS).
         /// </summary>
         private readonly string cadenaConexion =
-            "Server=.\\SQL2022;Database=AcaBiblioteca;Integrated Security=true;TrustServerCertificate=true;";
+            "Server=.\\SQLEXPRESS;Database=AcaBiblioteca;Integrated Security=true;TrustServerCertificate=true;";
 
         public SqlConnection ObtenerConexion()
         {
