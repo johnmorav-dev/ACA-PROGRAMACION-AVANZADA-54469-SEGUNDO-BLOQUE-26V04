@@ -2,8 +2,8 @@
 
 Aplicación de escritorio en **C# / Windows Forms / SQL Server** para administrar los libros, autores, editoriales y usuarios de una biblioteca, controlar préstamos y devoluciones y generar reportes.
 
-**ACA – Programación Avanzada (NRC 54469 – 26V04)** · Corporación Unificada Nacional de Educación Superior – CUN
-**Estudiante:** John Andrés Mora Varón · **Docente:** Verónica Castro
+**ACA – Programación Avanzada (NRC 54469 – 26V04)** · Corporación Unificada Nacional de Educación Superior – CUN<br>
+**Estudiante:** John Andrés Mora Varón · **Docente:** Verónica Castro<br>
 **Repositorio:** https://github.com/johnmorav-dev/ACA-PROGRAMACION-AVANZADA-54469-SEGUNDO-BLOQUE-26V04
 
 ---
